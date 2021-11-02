@@ -1,9 +1,0 @@
-openssh-server
-podman
-fuse-overlayfs
-ansible-builder
-ansible-navigator
-git
-jq
-openshift-clients
-helm

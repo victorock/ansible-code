@@ -5,11 +5,9 @@ readme: "README.md"
 authors:
     - "Victorock"
 dependencies:
-    "kubernetes.core": ">=0.0.1"
+    "kubernetes.core": ">=2.2.0"
 license:
     - "GPLv3"
 tags:
     - collection
-labels: {}
-annotations: {}
 repository: "https://www.github.com/victorock/victorock.ansible_code"

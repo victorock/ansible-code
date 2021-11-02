@@ -1,0 +1,9 @@
+---
+# export ANSIBLE_CODE_AUTH_KEYS=<SSH AUTHORIZED KEYS>
+# export ANSIBLE_CODE_HOST_RSA_KEY=<SSH HOST RSA KEY>
+# export ANSIBLE_CODE_USER=<MYUSER>
+# export K8S_AUTH_HOST=<K8S API ENDPOINT TO INSTALL>
+# export K8S_AUTH_API_KEY=<K8S API KEY OF ENDPOINT TO INSTALL>
+# ansible-galaxy collection install kubernetes.core
+# ansible-playbook ../playbooks/k8s.yaml
+- import_playbook: ../playbooks/k8s.yaml

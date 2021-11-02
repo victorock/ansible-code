@@ -1,0 +1,39 @@
+---
+# export ANSIBLE_CODE_AUTH_KEYS=<SSH AUTHORIZED KEYS>
+# export ANSIBLE_CODE_HOST_RSA_KEY=<SSH HOST RSA KEY>
+# export ANSIBLE_CODE_USER=<MYUSER>
+# export K8S_AUTH_HOST=<K8S API ENDPOINT TO INSTALL>
+# export K8S_AUTH_API_KEY=<K8S API KEY OF ENDPOINT TO INSTALL>
+# ansible-navigator
+ansible-navigator:
+  app: run
+  ansible:
+    inventories:
+    - hosts
+    playbook: ../playbooks/k8s.yaml
+
+  execution-environment:
+    enabled: true
+    container-engine: podman
+    image: quay.io/victorock/ansible-code:latest
+    pull-policy: missing
+# BUG:
+#   File "/usr/local/lib/python3.8/dist-packages/ansible_navigator/configuration_subsystem/navigator_post_processor.py", line 684, in set_environment_variable
+#    entry.value.current = {k: str(v) for k, v in entry.value.current.items()}
+#   AttributeError: 'list' object has no attribute 'items'
+################
+#    environment-variables:
+#      pass:
+#        - DEFAULT_RUNNER_ROLE
+#        - ANSIBLE_CODE_AUTH_KEYS
+#        - ANSIBLE_CODE_HOST_RSA_KEY
+#        - ANSIBLE_CODE_USER
+#        - K8S_AUTH_API_KEY
+#        - K8S_AUTH_HOST
+#      set:
+#        DEFAULT_RUNNER_ROLE: "victorock.ansible_code.k8s"
+#        ANSIBLE_CODE_AUTH_KEYS: "dsad"
+#        ANSIBLE_CODE_HOST_RSA_KEY: "dsadsa"
+#        ANSIBLE_CODE_USER: "dsadas"
+#        K8S_AUTH_API_KEY: "dsadasd"
+#        K8S_AUTH_HOST: "sadsad"

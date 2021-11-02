@@ -4,15 +4,15 @@ kind: Deployment
 metadata:
   name: {{ k8s_resources.user }}
   labels:
-    {{ galaxy.labels | indent 4 | trim }}
+    {{ k8s_labels | indent 4 | trim }}
 spec:
   selector:
     matchLabels:
-      {{ galaxy.labels | indent 6 | trim }}
+      {{ k8s_labels | indent 6 | trim }}
   template:
     metadata:
       labels:
-        {{ galaxy.labels | indent 8 | trim }}
+        {{ k8s_labels | indent 8 | trim }}
     spec:
       containers:
         - name: ansible-code
@@ -21,6 +21,7 @@ spec:
           securityContext:
             privileged: true
             runAsUser: 10000
+            fsGroup: 5000
           ports:
             - name: ssh
               containerPort: 22

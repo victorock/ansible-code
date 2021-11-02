@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: "{{ k8s_resources.user }}-home-containers"
   labels:
-    {{ galaxy.labels | indent 4 | trim }}
+    {{ k8s_labels | indent 4 | trim }}
 data:
   containers.conf: |-
     [containers]

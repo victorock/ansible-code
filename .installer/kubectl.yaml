@@ -1,0 +1,36 @@
+---
+# export ANSIBLE_CODE_AUTH_KEYS=<SSH AUTHORIZED KEYS>
+# export ANSIBLE_CODE_HOST_RSA_KEY=<SSH HOST RSA KEY>
+# export ANSIBLE_CODE_USER=<MYUSER>
+# export K8S_AUTH_HOST=<K8S API ENDPOINT TO INSTALL>
+# export K8S_AUTH_API_KEY=<K8S API KEY OF ENDPOINT TO INSTALL>
+# kubectl apply -f https://raw.githubusercontent.com/victorock/ansible_code/main/installer/k8s.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ansible-code-k8s-installer
+spec:
+  template:
+    spec:
+      containers:
+      - name: ansible-code
+        image: quay.io/victorock/ansible-code:latest
+        command: 
+          - "ansible-runner"
+          - "run"
+          - "/runner"
+        env:
+        - name: DEFAULT_RUNNER_ROLE
+          value: "victorock.ansible_code.k8s"
+        - name: ANSIBLE_CODE_AUTH_KEYS
+          value: "$(ANSIBLE_CODE_AUTH_KEYS)"
+        - name: ANSIBLE_CODE_HOST_RSA_KEY
+          value: "$(ANSIBLE_CODE_HOST_RSA_KEY)"
+        - name: ANSIBLE_CODE_USER
+          value: "$(ANSIBLE_CODE_USER)"
+        - name: K8S_AUTH_API_KEY
+          value: "$(K8S_AUTH_API_KEY)"
+        - name: K8S_AUTH_HOST
+          value: "$(K8S_AUTH_HOST)"
+      restartPolicy: Never
+  backoffLimit: 4
