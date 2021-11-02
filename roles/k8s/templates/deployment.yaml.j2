@@ -36,12 +36,12 @@ spec:
               mountPath: "/etc/containers"
               readOnly: true
             - name: home
-              mountPath: "/home/{{ k8s_resources.user }}"
+              mountPath: "/home/ansible"
             - name: home-ssh
-              mountPath: "/home/{{ k8s_resources.user }}/.ssh"
+              mountPath: "/home/ansible/.ssh"
               readOnly: true
             - name: home-containers
-              mountPath: "/home/{{ k8s_resources.user }}/.config/containers"
+              mountPath: "/home/ansible/.config/containers"
               readOnly: true
       volumes:
         - name: etc-ssh
