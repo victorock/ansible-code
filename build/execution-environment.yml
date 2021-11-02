@@ -1,0 +1,24 @@
+---
+version: 1
+build_arg_defaults:
+  EE_BASE_IMAGE: 'registry.redhat.io/ansible-automation-platform-20-early-access/ee-minimal-rhel8:2.0.1'
+  EE_BUILDER_IMAGE: 'registry.redhat.io/ansible-automation-platform-20-early-access/ansible-builder-rhel8:2.0.1'
+dependencies:
+  galaxy: requirements.yml
+  system: bindep.txt
+additional_build_steps:
+  append: |
+    RUN useradd ansible; \
+      echo ansible:10000:5000 > /etc/subuid; \
+      echo ansible:10000:5000 > /etc/subgid;
+    RUN mkdir -p /home/ansible/.local/share/containers /home/ansible/.ssh /home/ansible/.ansible
+    RUN chown ansible:ansible -R /home/ansible
+    ADD https://raw.githubusercontent.com/containers/libpod/master/contrib/podmanimage/stable/containers.conf /etc/containers/containers.conf
+    ADD https://raw.githubusercontent.com/containers/libpod/master/contrib/podmanimage/stable/podman-containers.conf /home/podman/.config/containers/containers.conf
+    RUN chmod 644 /etc/containers/containers.conf; sed -i -e 's|^#mount_program|mount_program|g' -e '/additionalimage.*/a "/var/lib/shared",' -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' /etc/containers/storage.conf
+    RUN mkdir -p /var/lib/shared/overlay-images /var/lib/shared/overlay-layers /var/lib/shared/vfs-images /var/lib/shared/vfs-layers; touch /var/lib/shared/overlay-images/images.lock; touch /var/lib/shared/overlay-layers/layers.lock; touch /var/lib/shared/vfs-images/images.lock; touch /var/lib/shared/vfs-layers/layers.lock
+    USER 10000
+    EXPOSE 22
+    CMD ["-D", "-e"]
+    ENTRYPOINT ["/usr/sbin/sshd"]
+

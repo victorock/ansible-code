@@ -1,0 +1,18 @@
+---
+k8s_image:
+  name: "victorock/ansible-code"
+  tag: "latest"
+  pullPolicy: "Always"
+
+k8s_service:
+  type: "LoadBalancer"
+
+k8s_secrets:
+  authorized_keys: "{{ k8s_secrets_authorized_keys | required }}"
+  ssh_host_rsa_key: "{{ k8s_secrets_ssh_host_rsa_key | required }}"
+
+k8s_resources:
+  user: "{{ k8s_resources_user | required }}"
+  cpu: "{{ k8s_resources_cpu | default('20m') }}"
+  memory: "{{ k8s_resources_memory | default('50Mi') }}"
+  storage: "{{ k8s_resources_storage | default('1Gi') }}"

@@ -1,0 +1,36 @@
+---
+- name: "Load Galaxy definition"
+  include_vars:
+    file: "{{ lookup('first_found', params) }}"
+    name: "galaxy"
+  vars:
+    params:
+      files:
+        - galaxy.yaml'
+      paths:
+        - "{{ role_path }}../"
+        - "{{ playbook_dir }}../"
+        - "{{ playbook_dir }}"
+
+- name: "Find k8s definition files"
+  ansible.builtin.find:
+    paths: 
+      - templates/secrets
+      - templates/configmaps
+      - templates/services
+      - templates/volumeclaims
+      - templates/volumes
+      - templates/
+    file_type: file
+    recurse: "No"
+  register: _k8s_definition
+
+## Loop is slower but easier for troubleshooting.
+## Assemble is faster but makes troubleshooting more difficult.
+- name: "Apply k8s definition files"
+  kubernetes.core.k8s:
+    state: present
+    template: "{{ item.path }}"
+  loop: "{{ _k8s_definition.files | flatten(levels=1) }}"
+  loop_control:
+    label: "Applying {{ item.path }}"

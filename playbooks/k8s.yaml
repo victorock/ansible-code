@@ -1,0 +1,15 @@
+---
+- name: "Ansible Run"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - victorock.ansible_code
+  tasks:
+    - include_role:
+        name: "victorock.ansible_code.k8s"
+      vars:
+        k8s_resources_user: "{{ ansible_code_user }}"
+        k8s_secrets_authorized_keys: "{{ ansible_code_authorized_keys }}"
+        k8s_secrets_ssh_host_rsa_key: "{{ ansible_code_ssh_host_rsa_key }}"
+        

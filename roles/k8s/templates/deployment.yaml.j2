@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ k8s_resources.user }}
+  labels:
+    {{ galaxy.labels | indent 4 | trim }}
+spec:
+  selector:
+    matchLabels:
+      {{ galaxy.labels | indent 6 | trim }}
+  template:
+    metadata:
+      labels:
+        {{ galaxy.labels | indent 8 | trim }}
+    spec:
+      containers:
+        - name: ansible-code
+          image: "{{ k8s_image.name }}:{{ k8s_image.tag }}"
+          imagePullPolicy: "{{ k8s_image.pullPolicy }}"
+          securityContext:
+            privileged: true
+            runAsUser: 10000
+          ports:
+            - name: ssh
+              containerPort: 22
+          resources:
+            requests:
+              cpu: "{{ k8s_resources.cpu }}"
+              memory: "{{ k8s_resources.memory }}"
+          volumeMounts:
+            - name: etc-ssh
+              mountPath: "/etc/ssh"
+              readOnly: true
+            - name: etc-containers
+              mountPath: "/etc/containers"
+              readOnly: true
+            - name: home
+              mountPath: "/home/{{ k8s_resources.user }}"
+            - name: home-ssh
+              mountPath: "/home/{{ k8s_resources.user }}/.ssh"
+              readOnly: true
+            - name: home-containers
+              mountPath: "/home/{{ k8s_resources.user }}/.config/containers"
+              readOnly: true
+      volumes:
+        - name: etc-ssh
+          secret:
+            secretName: "{{ galaxy.name }}-etc-ssh"
+            defaultMode: 0600
+            items:
+            - key: ssh_host_rsa_key
+              path: ssh_host_rsa_key
+        - name: etc-containers
+          configMap:
+            name: "{{ galaxy.name }}-etc-containers"
+        - name: "home"
+          persistentVolumeClaim:
+            claimName: "{{ k8s_resources.user }}-home"
+        - name: home-ssh
+          secret:
+            secretName: "{{ galaxy.name }}-home-ssh"
+            defaultMode: 0600
+            items:
+            - key: authorized_keys
+              path: authorized_keys
+        - name: home-containers
+          configMap:
+            name: "{{ k8s_resources.user }}-home-containers"

@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ galaxy.name }}-etc-containers
+  labels:
+    {{ galaxy.labels | indent 4 | trim }}
+data:
+  containers.conf: |-
+    [containers]
+    netns="host"
+    userns="host"
+    ipcns="host"
+    utsns="host"
+    cgroupns="host"
+    cgroups="disabled"
+    log_driver = "k8s-file"
+    [engine]
+    cgroup_manager = "cgroupfs"
+    events_logger="file"
+    runtime="crun"

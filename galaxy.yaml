@@ -1,0 +1,15 @@
+namespace: "victorock"
+name: "ansible_code"
+version: "0.0.1"
+readme: "README.md"
+authors:
+    - "Victorock"
+dependencies:
+    "kubernetes.core": ">=0.0.1"
+license:
+    - "GPLv3"
+tags:
+    - collection
+labels: {}
+annotations: {}
+repository: "https://www.github.com/victorock/ansible-code"
