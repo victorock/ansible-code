@@ -1,6 +1,9 @@
 ---
 collections:
   - name: kubernetes.core
-  - name: https://github.com/victorock/ansible-code.git
+    source: https://github.com/ansible-collections/kubernetes.core
     type: git
-    version: devel
+  - name: victorock.ansible_code
+    source: https://github.com/victorock/ansible_code
+    type: git
+

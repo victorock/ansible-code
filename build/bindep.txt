@@ -6,3 +6,4 @@ ansible-navigator
 git
 jq
 openshift-clients
+helm
