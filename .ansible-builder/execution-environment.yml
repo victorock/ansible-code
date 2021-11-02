@@ -1,8 +1,12 @@
 ---
 version: 1
 build_arg_defaults:
-  EE_BASE_IMAGE: 'registry.redhat.io/ansible-automation-platform-20-early-access/ee-minimal-rhel8:2.0.1'
-  EE_BUILDER_IMAGE: 'registry.redhat.io/ansible-automation-platform-20-early-access/ansible-builder-rhel8:2.0.1'
+## BUGGY
+#  EE_BASE_IMAGE: 'registry.redhat.io/ansible-automation-platform-20-early-access/ee-minimal-rhel8'
+#  EE_BUILDER_IMAGE: 'registry.redhat.io/ansible-automation-platform-20-early-access/ansible-builder-rhel8'
+#####
+  EE_BASE_IMAGE: 'quay.io/ansible/ansible-runner:devel'
+  EE_BUILDER_IMAGE: 'quay.io/ansible/ansible-builder:latest'
 dependencies:
   galaxy: requirements.yml
   system: bindep.txt
