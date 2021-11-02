@@ -5,6 +5,6 @@ collections:
     type: git
 
   - name: victorock.ansible_code
-    source: https://github.com/victorock/victorock.ansible_code
+    source: https://github.com/victorock/ansible_code
     type: git
 
