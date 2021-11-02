@@ -3,7 +3,8 @@ collections:
   - name: kubernetes.core
     source: https://github.com/ansible-collections/kubernetes.core
     type: git
+
   - name: victorock.ansible_code
-    source: https://github.com/victorock/ansible_code
+    source: https://github.com/victorock/victorock.ansible_code
     type: git
 

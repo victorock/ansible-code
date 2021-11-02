@@ -10,6 +10,4 @@ license:
     - "GPLv3"
 tags:
     - collection
-labels: {}
-annotations: {}
-repository: "https://www.github.com/victorock/ansible-code"
+repository: "https://www.github.com/victorock/victorock.ansible_code"
